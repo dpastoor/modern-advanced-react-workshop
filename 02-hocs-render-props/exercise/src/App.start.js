@@ -3,12 +3,14 @@ import createMediaListener from "./lib/createMediaListener";
 import { Galaxy, Trees, Earth } from "./lib/screens";
 import { CSSTransition } from "react-transition-group";
 
-const media = createMediaListener({
-  big: "(min-width : 1000px)",
-  tiny: "(max-width: 600px)"
-});
 
-class App extends React.Component {
+// queries sets up a closure that contains the queries
+// and returns a function that consumes a component
+// the component then gets called with the media prop
+// passed in
+const withMedia = queries => Comp => {
+  const media = createMediaListener(queries);
+  return class WithMedia extends React.Component {
   state = {
     media: media.getState()
   };
@@ -20,9 +22,15 @@ class App extends React.Component {
   componentWillUnmount() {
     media.dispose();
   }
-
+render() {
+  // also want to pass down any props passed to this HOC
+  return <Comp media={this.state.media} {...this.props} />
+}
+  }
+}
+class App extends React.Component {
   render() {
-    const { media } = this.state;
+    const { media } = this.props;
 
     return (
       <CSSTransition classNames="fade" timeout={300}>
@@ -38,4 +46,7 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default withMedia({
+    big: "(min-width : 1800px)",
+    tiny: "(max-width: 1000px)"
+})(App);
