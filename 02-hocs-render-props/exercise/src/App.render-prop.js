@@ -43,6 +43,15 @@ class App extends React.Component {
     return (
       <Media queries={this.state.queries}>
         {media => (
+          {/* 
+            if want to use media as a lifecycle hook
+            can't use it directly instead we can compose
+            components instead
+            <AddlComponent media={media} />
+
+            see this pattern in the Component Component in reach UI
+            
+          */}
           <CSSTransition classNames="fade" timeout={300}>
             {media.big ? (
               <Galaxy key="galaxy" />
@@ -58,4 +67,10 @@ class App extends React.Component {
   }
 }
 
+// other place where render props aren't good are if
+// you want to do things with static analysis where
+// you don't want the dynamic elements associated with 
+// render props
+// for example, generating specific bundles in webpack with
+// react-loadable
 export default App;
