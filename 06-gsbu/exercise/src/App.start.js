@@ -19,6 +19,29 @@ import subscribeToMessages from "./lib/messages";
 import FadeIn from "./lib/FadeIn";
 
 class PinScrollToBottom extends Component {
+  scroll() {
+    document.documentElement.scrollTop = document.documentElement.scrollHeight;
+  }
+  componentDidMount() {
+    this.scroll()
+  }
+  getSnapshotBeforeUpdate() {
+    let { scrollTop, scrollHeight, clientHeight} = document.documentElement
+    console.log("st", scrollTop, 'sh', scrollHeight,'ch', clientHeight)
+    // scrollTop --> height of top of Viewport related to full page
+    // clientHeight length of visible client
+    // scrollHeight length of entire page
+    if (scrollTop + clientHeight + 10 >= scrollHeight) {
+      return(true)
+    }
+    return(false)
+
+  }
+  componentDidUpdate(prevProps, prevState, atBottom) {
+    if (atBottom) {
+      this.scroll()
+    }
+  }
   render() {
     return this.props.children;
   }
