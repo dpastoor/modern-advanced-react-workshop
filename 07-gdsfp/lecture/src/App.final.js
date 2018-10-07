@@ -10,14 +10,22 @@ class Fetch extends Component {
     url: this.props.url
   };
 
+  // this will prevent multiple renders that happen if we 
+  // do this logic in componentDidMount
+
+  // You Probably don't need this unless it is a major performance
+  // bottleneck from the extra render
   static getDerivedStateFromProps(props, state) {
     if (props.url !== state.url) {
+      // this is basically resetting the state
       return {
         error: null,
         data: null,
+        // need the url to be in state so we can do this diff later
         url: props.url
       };
     }
+    // 
     return null;
   }
 

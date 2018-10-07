@@ -29,8 +29,11 @@ class App extends Component {
 
 class PriceDisplay extends React.Component {
   state = {
+    // when deriving state we need to use the props.price for initialization
+    // so can immediately compare state.price to props.price
     price: this.props.price,
-    direction: "initial"
+    direction: "initial",
+    count: 2
   };
 
   static getDerivedStateFromProps(props, state, more) {
@@ -71,6 +74,7 @@ class PriceDisplay extends React.Component {
         </span>
         <span style={{ fontFamily: "monospace" }}>
           {this.props.price.toFixed(2)}
+          count: {this.state.count}
         </span>
       </div>
     );
