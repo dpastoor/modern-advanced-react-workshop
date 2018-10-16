@@ -24,15 +24,32 @@ class Select extends React.Component {
     isOpen: false,
     value: this.props.defaultValue
   };
-
+  onToggle = () => {
+          this.setState({isOpen: !this.state.isOpen})
+  }
   render() {
     const { isOpen } = this.state;
+    let label; 
+    const children = React.Children.map(this.props.children, (child, index) => {
+      if (this.state.value === child.props.value) {
+        // because we want the Text value (capitalized), not the "key" value 
+        // given via props
+        label = child.props.children
+      }
+      return React.cloneElement(child, {
+        onSelect: () => {
+          this.setState({ value: child.props.value });
+        }
+      });
+    }); 
     return (
-      <div className="select">
+      <div className="select"
+        onClick = {this.onToggle}
+      >
         <button className="label">
-          label <span className="arrow">▾</span>
+          {label} <span className="arrow">▾</span>
         </button>
-        {isOpen && <ul className="options">{this.props.children}</ul>}
+        {isOpen && <ul className="options">{children}</ul>}
       </div>
     );
   }
@@ -40,7 +57,7 @@ class Select extends React.Component {
 
 class Option extends React.Component {
   render() {
-    return <li className="option">{this.props.children}</li>;
+    return <li className="option" onClick={this.props.onSelect}>{this.props.children}</li>;
   }
 }
 

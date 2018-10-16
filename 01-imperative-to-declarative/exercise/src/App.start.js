@@ -18,6 +18,28 @@ Tips:
 
 import React, { Component } from "react";
 
+// using general children, rather than an incomplete prop,
+// we keep the implementation generic so it can be used
+// here or in other situations where we just generically want
+// to set the title
+class DocumentTitle extends Component {
+  _updateDocumentTitle() {
+    document.title = this.props.children;
+  }
+  componentDidMount() {
+    this._updateDocumentTitle();
+  }
+  componentDidUpdate(prevProps) {
+    // if don't check this, will cause this to be run every time this
+    // component is updated, which _may_ cause performance problems
+    if (prevProps.children !== this.props.children) {
+      this._updateDocumentTitle();
+    }
+  }
+  render() {
+    return null;
+  }
+}
 class App extends Component {
   state = {
     completed: 0,
@@ -31,7 +53,7 @@ class App extends Component {
     return (
       <div className="app">
         <h1>Todos ({incomplete})</h1>
-
+        <DocumentTitle>{`Todos (${incomplete})`}</DocumentTitle>
         <form
           onSubmit={event => {
             let todo = event.target.elements[0].value;

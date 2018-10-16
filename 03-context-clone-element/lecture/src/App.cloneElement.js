@@ -16,6 +16,8 @@ class Tabs extends Component {
 
   render() {
     const children = React.Children.map(this.props.children, child => {
+      // allows us to copy the object (think the JSX element) and
+      // give it additional props
       return React.cloneElement(child, {
         activeIndex: this.state.activeIndex,
         onSelectTab: this.selectTabIndex
@@ -85,6 +87,10 @@ class DataTabs extends Component {
   }
 }
 
+
+// this pattern is known as implicit state and prevents
+// prop bloating with tabs to set things like whether active
+// 
 class App extends Component {
   render() {
     return (

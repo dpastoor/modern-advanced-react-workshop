@@ -9,6 +9,10 @@ class Portal extends React.Component {
   };
 
   componentDidMount() {
+    // the reason we do this here, rather than as a static propery
+    // is if we are server rendering, document does not exist yet
+    // so having document.createElement would fail.
+    // instead we know mounting will happen in the browser only
     this.node = document.createElement("div");
     document.body.appendChild(this.node);
     this.setState({ mounted: true });

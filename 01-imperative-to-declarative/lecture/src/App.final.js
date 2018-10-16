@@ -2,6 +2,8 @@ import React from "react";
 import createOscillator from "./lib/createOscillator";
 import SineWave from "./lib/SineWave";
 
+
+// 
 class Tone extends React.Component {
   oscillator = createOscillator();
 
@@ -25,6 +27,8 @@ class Tone extends React.Component {
   }
 
   render() {
+    // use null rendering when want to leverage react's lifecyles
+    // but don't want to actually render something to the UI
     return null;
   }
 }
@@ -73,6 +77,15 @@ class App extends React.Component {
             pitch={this.state.pitch}
             volume={this.state.volume}
           />
+          {/*
+          // can also use this to compose multiple elements easily
+          // without needing to place this logic in the main component
+          <Tone
+            isPlaying={this.state.isPlaying}
+            pitch={this.state.pitch/2}
+            volume={this.state.volume}
+          />
+           */}
         </div>
         <div className="label pitch">◀︎ Pitch ▶︎</div>
         <div className="label volume">◀︎ Volume ▶︎</div>

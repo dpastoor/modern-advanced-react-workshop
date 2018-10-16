@@ -11,6 +11,8 @@ import { CSSTransition } from "react-transition-group";
 const withMedia = queries => Comp => {
   const media = createMediaListener(queries);
   return class WithMedia extends React.Component {
+    // can control the displayname within react dev tools
+    static displayName = `withMedia${Comp.displayName || Comp.name}`
   state = {
     media: media.getState()
   };
